@@ -1,5 +1,5 @@
 // Import sequelize instance and fields from database model (require)
-const {sequelize_instance, todos} = require("../models/database_model")
+const {sequelize_instance, todos} = require("../models/index")
 
 /**
  * Get the list of todo items (Direct communication with postgres)

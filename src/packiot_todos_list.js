@@ -3,7 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 // Import database model and database services (require)
-const database = require("./models/database_model")
+const database = require("./models/index")
 const database_services = require('./services/database_services')
 
 // Set app port

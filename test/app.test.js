@@ -6,7 +6,7 @@ let chai = require("chai")
 let chaiHttp = require("chai-http")
 
 // Import todos database
-const { todos } = require("../src/models/database_model")
+const { todos } = require("../src/models/index")
 let should = chai.should()
 
 /**

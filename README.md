@@ -17,7 +17,7 @@ This repository is a CRUD RESTful API in nodejs and using postgresql.
 
 1. Clone the repository
 2. cd packiot_test
-3. run docker run -d -p 5432:5432 --name node-postgres -e POSTGRES_PASSWORD=packiot -e POSTGRES_DB=packiot_todos -e POSTGRES_USER=packiot_user postgres
+3. docker run -d -p 5432:5432 --name node-postgres -e POSTGRES_PASSWORD=packiot -e POSTGRES_DB=packiot_todos -e POSTGRES_USER=packiot_user postgres
 3. npm i
 4. npm test
 

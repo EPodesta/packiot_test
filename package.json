@@ -1,0 +1,19 @@
+{
+    "name": "packiot_todo_list",
+    "version": "1.0.0",
+    "description": "Packiot Dev Backend test",
+    "main": "packiot_todo_list.js",
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "chai": "^4.3.7",
+        "chai-http": "^4.3.0",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "mocha": "^10.2.0",
+        "pg": "^8.10.0",
+        "sequelize": "^6.30.0"
+    },
+    "scripts": {
+        "test": "mocha --timeout 10000 --exit"
+    }
+}

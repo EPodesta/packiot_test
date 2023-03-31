@@ -1,5 +1,5 @@
 // Import DataTypes from Sequelize (require)
-const { DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize")
 
 // Export the database model for the todo list
 module.exports = (sequelize_instance) => {
@@ -24,6 +24,6 @@ module.exports = (sequelize_instance) => {
 		date_completed: {
 			type: DataTypes.DATE,
 		},
-	});
-	return todos;
-};
+	})
+	return todos
+}

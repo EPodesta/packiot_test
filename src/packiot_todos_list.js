@@ -3,14 +3,14 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 // Import database model and database services (require)
-const database = require("./models/database_model");
+const database = require("./models/database_model")
 const database_services = require('./services/database_services')
 
 // Set app port
 const app_port = 3000
 
 // Create database table specified inside models
-database.sequelize_instance.sync();
+database.sequelize_instance.sync()
 
 // Setup request and responses
 const app = express()

@@ -55,7 +55,7 @@ describe("---------------------- Packiot CRUD API Test -------------------------
         after(async () => {})
     })
     describe("GET endpoint - Get item", () => {
-        let created_item = {};
+        let created_item = {}
 
         before( async () => {
             const date_time = new Date()
@@ -102,13 +102,13 @@ describe("---------------------- Packiot CRUD API Test -------------------------
                 .end((error, response) => {
                     response.should.have.status(200)
                     response.body.should.have.property("data")
-                    done();
-                });
-        });
+                    done()
+                })
+        })
     })
 
     describe("PUT endpoint - Update item", () => {
-        let created_item = {};
+        let created_item = {}
         before( async () => {
             try {
                 const date_time = new Date()
@@ -149,7 +149,7 @@ describe("---------------------- Packiot CRUD API Test -------------------------
 
     })
     describe("DELETE endpoint - Delete item", () => {
-        let created_item = {};
+        let created_item = {}
         before( async () => {
             try {
                 const date_time = new Date()

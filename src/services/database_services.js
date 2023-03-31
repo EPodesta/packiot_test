@@ -5,7 +5,7 @@ const {
     create_item_action,
     update_item_action,
     delete_item_action
-} = require("../actions/database_actions");
+} = require("../actions/database_actions")
 
 /**
  * Verify if the creation request has all fields
@@ -32,11 +32,11 @@ function validate_creation_request(request) {
 async function get_list_service(request, response) {
     try {
         const list = await get_list_action()
-        res = response.status(200).send({ data: list, message: "Fetched list!" });
+        res = response.status(200).send({ data: list, message: "Fetched list!" })
         return res
     } catch (error) {
-        console.error(error);
-        res = response.status(500).send({ error: "Error: list fetch failed..." });
+        console.error(error)
+        res = response.status(500).send({ error: "Error: list fetch failed..." })
         return response
     }
 }
@@ -54,14 +54,14 @@ async function get_item_service(request, response) {
         const item_id = request.params.id
         const returned_item = await get_item_action(item_id)
         if (returned_item === null) {
-            res = response.status(404).send({ error: "There is not a item with the given id..." });
+            res = response.status(404).send({ error: "There is not a item with the given id..." })
             return res
         }
-        res = response.status(200).send({ data: returned_item, message: "Fetched item!" });
+        res = response.status(200).send({ data: returned_item, message: "Fetched item!" })
         return res
     } catch (error) {
-        console.error(error);
-        res = response.status(500).send({ error: "Error: item fetch failed..." });
+        console.error(error)
+        res = response.status(500).send({ error: "Error: item fetch failed..." })
         return res
     }
 }
@@ -81,11 +81,11 @@ async function create_item_service(request, response) {
         }
         const item = request.body
         const created_item = await create_item_action(item)
-        res = response.status(200).send({ data: created_item, message: "Created item!" });
+        res = response.status(200).send({ data: created_item, message: "Created item!" })
         return res
     } catch (error) {
-        console.error(error);
-        res =  response.status(500).send({ error: "Error: item creation failed..." });
+        console.error(error)
+        res =  response.status(500).send({ error: "Error: item creation failed..." })
         return res
     }
 }
@@ -101,18 +101,18 @@ async function create_item_service(request, response) {
 async function update_item_service(request, response) {
     try {
         const item_id = request.params.id
-        const returned_item = await get_item_action(item_id);
+        const returned_item = await get_item_action(item_id)
         if (returned_item === null) {
-            res = response.status(404).send({ error: "There is not a item with the given id..." });
+            res = response.status(404).send({ error: "There is not a item with the given id..." })
             return res
         }
         const item = request.body
         await update_item_action(item_id, item)
-        res = response.status(200).send({ message: "Updated item!" });
+        res = response.status(200).send({ message: "Updated item!" })
         return res
     } catch (error) {
-        console.error(error);
-        res = response.status(500).send({ error: "Error: item update failed..." });
+        console.error(error)
+        res = response.status(500).send({ error: "Error: item update failed..." })
         return res
     }
 }
@@ -128,17 +128,17 @@ async function update_item_service(request, response) {
 async function delete_item_service(request, response) {
     try {
         const item_id = request.params.id
-        const returned_item = await get_item_action(item_id);
+        const returned_item = await get_item_action(item_id)
         if (returned_item === null) {
-            res = response.status(404).send({ error: "There is not a item with the given id..." });
+            res = response.status(404).send({ error: "There is not a item with the given id..." })
             return res
         }
         await delete_item_action(item_id)
-        res = response.status(200).send({ message: "Deleted item!" });
+        res = response.status(200).send({ message: "Deleted item!" })
         return res
     } catch (error) {
-        console.error(error);
-        res = response.status(500).send({ error: "Error: item deletion failed..." });
+        console.error(error)
+        res = response.status(500).send({ error: "Error: item deletion failed..." })
         return res
     }
 }

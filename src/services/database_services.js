@@ -54,7 +54,7 @@ async function get_item_service(request, response) {
         const item_id = request.params.id
         const returned_item = await get_item_action(item_id)
         if (returned_item === null) {
-            res = response.status(404).send({ error: "There is not a item with the given id..." })
+            res = response.status(404).send({ error: "There is not an item with the given id..." })
             return res
         }
         res = response.status(200).send({ data: returned_item, message: "Fetched item!" })
@@ -103,7 +103,7 @@ async function update_item_service(request, response) {
         const item_id = request.params.id
         const returned_item = await get_item_action(item_id)
         if (returned_item === null) {
-            res = response.status(404).send({ error: "There is not a item with the given id..." })
+            res = response.status(404).send({ error: "There is not an item with the given id..." })
             return res
         }
         const item = request.body
@@ -130,7 +130,7 @@ async function delete_item_service(request, response) {
         const item_id = request.params.id
         const returned_item = await get_item_action(item_id)
         if (returned_item === null) {
-            res = response.status(404).send({ error: "There is not a item with the given id..." })
+            res = response.status(404).send({ error: "There is not an item with the given id..." })
             return res
         }
         await delete_item_action(item_id)

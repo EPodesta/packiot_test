@@ -1,13 +1,18 @@
+// Import server from main file
 const app = require("../src/packiot_todos_list")
 
+// Import chai for testing
 let chai = require("chai")
 let chaiHttp = require("chai-http")
-const {sequelize_instance, todos} = require("../src/models/database_model")
+
+// Import todos database
+const { todos } = require("../src/models/database_model")
 let should = chai.should()
 
-chai.use(chaiHttp)
-describe("---------------------- Packiot CRUD API Test -------------------------", () => {
-    describe("POST endpoint - Create", () => {
+/**
+ * Test function to create an item with a missing title
+ */
+function create_with_missing_title() {
         it("Create an item with missing title", (done) => {
             let item = {
                 description: "This is a test description",
@@ -21,7 +26,12 @@ describe("---------------------- Packiot CRUD API Test -------------------------
                     done()
                 })
         })
+}
 
+/**
+ * Test function to create an item with a missing description
+ */
+function create_with_missing_description() {
         it("Create an item with missing description", (done) => {
             let item = {
                 title: "This is a test title",
@@ -35,8 +45,14 @@ describe("---------------------- Packiot CRUD API Test -------------------------
                     done()
                 })
         })
+}
 
-        it("Create an item without any problems", (done) => {
+
+/**
+ * Test function to create an item without problems
+ */
+function create_without_problems() {
+        it("Create an item without problems", (done) => {
             let item = {
                 title: "This is a test title",
                 description: "This is a test description"
@@ -51,51 +67,27 @@ describe("---------------------- Packiot CRUD API Test -------------------------
                     done()
                 })
         })
+}
 
-        after(async () => {})
-    })
-    describe("GET endpoint - Get item", () => {
-        let created_item = {}
-
-        before( async () => {
-            const date_time = new Date()
-            const todo_item = {
-                                title: "Generic item title",
-                                description: "Generic item desciprtion",
-                                date_created: date_time,
-                                date_updated: date_time
-                            }
-            try {
-                created_item = await todos.create( {title: todo_item.title, description: todo_item.description, date_created: date_time, date_updated: date_time })
-            } catch (err) {
-                console.error(err)
-            }
-        })
-
-        it("Get unexisting item id", (done) => {
+/**
+ * Test function to get an invalid item
+ */
+function get_invalid_item() {
+        it("Get invalid item id", (done) => {
             chai.request(app)
                 .get("/todos/987654")
                 .end((error, response) => {
                     response.should.have.status(404)
-                    response.body.error.should.equal("There is not a item with the given id...")
+                    response.body.error.should.equal("There is not an item with the given id...")
                     done()
                 })
         })
+}
 
-        it("Get item with correct id", (done) => {
-            chai.request(app)
-                .get(`/todos/${created_item.id}`)
-                .end((error, response) => {
-                    response.should.have.status(200)
-                    response.body.should.have.property("data")
-                    response.body.message.should.equal("Fetched item!")
-                    response.body.data.id.should.equal(created_item.id)
-                    response.body.data.title.should.equal("Generic item title")
-                    response.body.data.description.should.equal("Generic item desciprtion")
-                    done()
-                })
-        })
-
+/**
+ * Test function to get all items
+ */
+function get_list() {
         it("Get all items", (done) => {
             chai.request(app)
                 .get("/todos")
@@ -105,35 +97,117 @@ describe("---------------------- Packiot CRUD API Test -------------------------
                     done()
                 })
         })
-    })
+}
 
-    describe("PUT endpoint - Update item", () => {
+/**
+ * Test function to update an invalid item
+ */
+function update_invalid_item() {
+        it("Update invalid item", (done) => {
+            chai.request(app)
+                .put("/todos/987654")
+                .end((error, response) => {
+                    response.should.have.status(404)
+                    response.body.error.should.equal("There is not an item with the given id...")
+                    done()
+                })
+        })
+}
+
+/**
+ * Test function to delete an invalid item
+ */
+function delete_invalid_item() {
+        it("Delete invalid item id", (done) => {
+            chai.request(app)
+                .delete("/todos/987654")
+                .end((error, response) => {
+                    response.should.have.status(404)
+                    response.body.error.should.equal("There is not an item with the given id...")
+                    done()
+                })
+        })
+}
+
+chai.use(chaiHttp)
+describe("---------------------- Packiot CRUD API Test -------------------------", () => {
+    describe("POST endpoint - Create", () => {
+        //Test 1
+        create_with_missing_title()
+
+        //Test 2
+        create_with_missing_description()
+
+        //Test 3
+        create_without_problems()
+
+    })
+    describe("GET endpoint - Get item", () => {
+        // Create dummy item
         let created_item = {}
+        const date_time = new Date()
         before( async () => {
+            const item = {
+                                title: "Generic item title",
+                                description: "Generic item description",
+                                date_created: date_time,
+                                date_updated: date_time
+                            }
             try {
-                const date_time = new Date()
-                const todo_item = {
-                                    title: "Generic item title",
-                                    description: "Generic item desciprtion",
-                                    date_created: date_time,
-                                    date_updated: date_time
-                                }
-                created_item = await todos.create( {title: todo_item.title, description: todo_item.description, date_created: date_time, date_updated: date_time })
+                created_item = await todos.create( {title: item.title, description: item.description, date_created: item.date_created, date_updated: item.date_updated })
             } catch (err) {
                 console.error(err)
             }
         })
 
-        it("Update unexisting item id", (done) => {
+        // Test 4
+        get_invalid_item()
+
+        // Test 5
+        // IMPORTANT: Because of the Promise context, could not isolate this in a function,
+        // more study is needed. Could not figure out how to solve this
+        it("Get item with correct id", (done) => {
             chai.request(app)
-                .put("/todos/987654")
+                .get(`/todos/${created_item.id}`)
                 .end((error, response) => {
-                    response.should.have.status(404)
-                    response.body.error.should.equal("There is not a item with the given id...")
+                    response.should.have.status(200)
+                    response.body.should.have.property("data")
+                    response.body.message.should.equal("Fetched item!")
+                    response.body.data.id.should.equal(created_item.id)
+                    response.body.data.title.should.equal("Generic item title")
+                    response.body.data.description.should.equal("Generic item description")
                     done()
                 })
         })
 
+        // Test 6
+        get_list()
+    })
+
+    describe("PUT endpoint - Update item", () => {
+        // Create dummy item
+        let created_item = {}
+        before( async () => {
+            try {
+                const date_time = new Date()
+                const item = {
+                                    title: "Generic item title",
+                                    description: "Generic item description",
+                                    date_updated: date_time,
+                                    date_completed: date_time
+                                }
+                created_item = await todos.create({title: item.title, description: item.description, date_updated: item.date_updated, date_completed: item.date_completed })
+            } catch (err) {
+                console.error(err)
+            }
+        })
+
+        // Test 7
+        update_invalid_item()
+
+        // Test 8
+        // IMPORTANT: Because of the Promise context, could not isolate this in a function,
+        // more study is needed. Could not figure out how to solve this
         it("Update item with correct id", (done) => {
             created_item.description = "something else"
             chai.request(app)
@@ -148,33 +222,31 @@ describe("---------------------- Packiot CRUD API Test -------------------------
         })
 
     })
+
     describe("DELETE endpoint - Delete item", () => {
+        // Create dummy item
         let created_item = {}
         before( async () => {
             try {
                 const date_time = new Date()
-                const todo_item = {
+                const item = {
                                     title: "Generic item title",
-                                    description: "Generic item desciprtion",
+                                    description: "Generic item description",
                                     date_created: date_time,
                                     date_updated: date_time
                                 }
-                created_item = await todos.create( {title: todo_item.title, description: todo_item.description, date_created: date_time, date_updated: date_time })
+                created_item = await todos.create( {title: item.title, description: item.description, date_created: date_time, date_updated: date_time })
             } catch (err) {
                 console.error(err)
             }
         })
 
-        it("Delete unexisting item id", (done) => {
-            chai.request(app)
-                .delete("/todos/987654")
-                .end((error, response) => {
-                    response.should.have.status(404)
-                    response.body.error.should.equal("There is not a item with the given id...")
-                    done()
-                })
-        })
+        // Test 9
+        delete_invalid_item()
 
+        // Test 10
+        // IMPORTANT: Because of the Promise context, could not isolate this in a function,
+        // more study is needed. Could not figure out how to solve this
         it("Delete item with correct id", (done) => {
             chai.request(app)
                 .delete(`/todos/${created_item.id}`)

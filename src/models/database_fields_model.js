@@ -24,6 +24,10 @@ module.exports = (sequelize_instance) => {
 		date_completed: {
 			type: DataTypes.DATE,
 		},
-	})
+
+	},
+    {
+      freezeTableName: true,
+    })
 	return todos
 }

@@ -19,7 +19,7 @@ This repository is a CRUD RESTful API in nodejs and using postgresql.
 2. `cd packiot_test`
 3. `docker run -d -p 5432:5432 --name node-postgres -e POSTGRES_PASSWORD=packiot -e POSTGRES_DB=packiot_todos -e POSTGRES_USER=packiot_user postgres`
 3. `npm i`
-4. `npm test`
+4. For testing: `npm test`, For run: `cd src; node packiot_todos_list.js`
 
 ## Problems
 * If there is a process running on the 5432 port, run sudo ss -lptn 'sport = :5432' and kill the respective PID.

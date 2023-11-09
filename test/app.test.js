@@ -187,16 +187,16 @@ describe("---------------------- Packiot CRUD API Test -------------------------
     describe("PUT endpoint - Update item", () => {
         // Create dummy item
         let created_item = {}
+        const date_time = new Date()
         before( async () => {
             try {
-                const date_time = new Date()
                 const item = {
                                     title: "Generic item title",
                                     description: "Generic item description",
+                                    date_create: date_time,
                                     date_updated: date_time,
-                                    date_completed: date_time
                                 }
-                created_item = await todos.create({title: item.title, description: item.description, date_updated: item.date_updated, date_completed: item.date_completed })
+                created_item = await todos.create({title: item.title, description: item.description, date_created: item.date_create, date_updated: item.date_updated })
             } catch (err) {
                 console.error(err)
             }
@@ -210,6 +210,7 @@ describe("---------------------- Packiot CRUD API Test -------------------------
         // more study is needed. Could not figure out how to solve this
         it("Update item with correct id", (done) => {
             created_item.description = "something else"
+            created_item.date_completed = date_time
             chai.request(app)
                 .put(`/todos/${created_item.id}`)
                 .send(created_item)
